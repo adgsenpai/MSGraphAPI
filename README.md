@@ -1,53 +1,67 @@
-![](https://pypi.org/static/images/logo-large.6bdbb439.svg)
+Certainly! Here's an example of a README file for your `GraphAPI` class:
 
-# Templete
+# GraphAPI
 
-for offical documentation refer to the documentation @ [packaging.python.org](https://packaging.python.org/en/latest/tutorials/packaging-projects/)
+The GraphAPI class is a Python wrapper for interacting with the Microsoft Graph API, providing simplified access to Microsoft services such as Office 365, OneDrive, and Outlook. It abstracts away the complexity of authentication and API calls, allowing developers to easily perform actions like retrieving user information, accessing email messages, uploading and downloading files, creating folders, and more.
 
+## Features
 
-## Usage
+- Authenticate with Microsoft Azure Active Directory.
+- Retrieve user information and email messages.
+- Upload and download files to/from OneDrive.
+- Create and manage folders in OneDrive.
+- Search for files.
+- Delete files and folders.
+- Generate share links for files.
+- Access advanced functionality of the Microsoft Graph API.
 
-### Create your custom module
-- rename `mymodule` to your module name.
-- in `mymodule/__init__.py` you need to put your super logic/code
+## Installation
 
-- Final step in `setup.py` put your metadata and make sure name is matching module folder in directory.
+1. Clone or download the repository.
+2. Install the required dependencies using `pip install -r requirements.txt`.
+3. Import the `GraphAPI` class into your Python project.
 
-## Publishing
+## Getting Started
 
-### `DevOps` / `GitHub Actions` way pushing
-- Add two actions secrets 
-  `PY_PASSWORD` and `PY_USERNAME`
+1. Create an instance of the `GraphAPI` class with your Azure AD app credentials and user ID.
+2. Use the provided methods to interact with the Microsoft Graph API and perform desired actions.
+3. Refer to the code documentation and examples for detailed usage instructions.
 
-- Enable `Actions` in `main.yml` you will find config.
+```python
+from graphapi import GraphAPI
 
-- In `Actions` you can run your `workflow_dispatch` manually
+# Create an instance of the GraphAPI class
+api = GraphAPI(appid, client_secret, tenant_id, userid)
 
-Alternatively
+# Retrieve user information
+api.get_information()
 
-- On `release` your module/workflow will be deployed/initiates on PyPi.
+# Access email messages
+mail = api.get_mail()
 
-Note: you need to change your version number in `setup.py` otherwise an oopsie may occur
+# Upload a file to OneDrive
+api.upload_to_onedrive('file.txt', '/path/to/folder', access_token)
 
-### Manual Push
+# Download a file from OneDrive
+api.download_file('file.txt', '/path/to/folder', 'destination.txt')
 
-#### Requirements
+# Create a folder in OneDrive
+api.create_folder('new_folder')
+
+# Search for files
+search_results = api.search_for_file('keyword')
+
+# Delete a file or folder
+api.delete_file('file.txt', '/path/to/folder')
+
+# Generate a share link for a file
+share_link = api.create_share_link('file.txt', '/path/to/folder')
 ```
-python3 -m pip install --upgrade pip
-python3 -m pip install setuptools wheel twine  
-```
 
-### Enviromental Variables
-```
-adgsenpai@adgstudios $ PYPI_USERNAME='myusername'
-adgsenpai@adgstudios $ PYPI_PASSWORD='mysupersecretpassword'
-```
+## Contributing
 
+Contributions are welcome! Please follow the guidelines in the CONTRIBUTING.md file.
 
-#### Deployment
-```
-python3 setup.py sdist bdist_wheel
-python3 -m twine upload dist/*  
-```
- 
-##### by Ashlin Darius Govindasamy - ADGSTUDIOS 2022
+## License
+
+This project is licensed under the [MIT License](LICENSE).
