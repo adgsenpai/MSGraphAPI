@@ -1,5 +1,3 @@
-Certainly! Here's an example of a README file for your `GraphAPI` class:
-
 # GraphAPI
 
 The GraphAPI class is a Python wrapper for interacting with the Microsoft Graph API, providing simplified access to Microsoft services such as Office 365, OneDrive, and Outlook. It abstracts away the complexity of authentication and API calls, allowing developers to easily perform actions like retrieving user information, accessing email messages, uploading and downloading files, creating folders, and more.
