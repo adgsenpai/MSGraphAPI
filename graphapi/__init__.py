@@ -266,6 +266,26 @@ class GraphAPI:
         else:
             return False
 
+    def download_by_filename(self, filename):
+        endpoint = f'https://graph.microsoft.com/v1.0/users/{self.userid}/drive/root/search(q=\'{filename}\')'
+        response = requests.get(
+            endpoint, headers={'Authorization': 'Bearer ' + self.token})
+        result = response.json()
+        if 'value' in result:
+            file_id = result['value'][0]['id']
+            download_url = f'https://graph.microsoft.com/v1.0/users/{self.userid}/drive/items/{file_id}/content'
+            file_response = requests.get(download_url, headers={
+                                         'Authorization': 'Bearer ' + self.token})
+            if file_response.status_code == 200:
+                # Here, you can save the file to a location on your local system
+                with open(filename, 'wb') as f:
+                    f.write(file_response.content)
+                return f"File '{filename}' downloaded successfully."
+            else:
+                return f"Error downloading the file. Status code: {file_response.status_code}"
+        else:
+            return f"File '{filename}' not found in OneDrive."
+
 
 # Usage example:
 if __name__ == '__main__':
@@ -273,8 +293,4 @@ if __name__ == '__main__':
     client_secret = ''
     tenant_id = ''
     userid = ''
-
     api = GraphAPI(appid, client_secret, tenant_id, userid)
-    api.get_information()
-    mail = api.get_mail()
-    print(mail)

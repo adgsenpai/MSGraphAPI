@@ -54,11 +54,15 @@ api.delete_file('file.txt', '/path/to/folder')
 
 # Generate a share link for a file
 share_link = api.create_share_link('file.txt', '/path/to/folder')
+
+# Download Filename from OneDrive
+download_by_filename('foo.txt')
+
 ```
 
 ## Contributing
 
-Contributions are welcome! Please follow the guidelines in the CONTRIBUTING.md file.
+Contributions are welcome! 
 
 ## License
 
