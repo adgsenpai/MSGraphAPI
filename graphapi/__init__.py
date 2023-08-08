@@ -268,16 +268,29 @@ class GraphAPI:
 
     def download_by_filename(self, filename):
         endpoint = f'https://graph.microsoft.com/v1.0/users/{self.userid}/drive/root/search(q=\'{filename}\')'
-        response = requests.get(
-            endpoint, headers={'Authorization': 'Bearer ' + self.token})
+        response = requests.get(endpoint, headers={'Authorization': 'Bearer ' + self.token})
         result = response.json()
+
+        # Get the file extension from the provided filename
+        print(result)
+        fileextension = filename.split('.')[-1]  
+              
         if 'value' in result:
-            file_id = result['value'][0]['id']
+            # Check if the extension is in the filename of any file found in the search results
+            for record in result['value']:
+                if fileextension in record['name'].split('.')[-1]:
+                    file_id = record['id']
+                    break
+
+            if 'file_id' not in locals():
+                return f"File '{filename}' not found in OneDrive."
+
+            # If the file is found and the extension matches, proceed to download it
             download_url = f'https://graph.microsoft.com/v1.0/users/{self.userid}/drive/items/{file_id}/content'
-            file_response = requests.get(download_url, headers={
-                                         'Authorization': 'Bearer ' + self.token})
+            file_response = requests.get(download_url, headers={'Authorization': 'Bearer ' + self.token})
+
             if file_response.status_code == 200:
-                # Here, you can save the file to a location on your local system
+                # Save the file to a location on your local system
                 with open(filename, 'wb') as f:
                     f.write(file_response.content)
                 return f"File '{filename}' downloaded successfully."
